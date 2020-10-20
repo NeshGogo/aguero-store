@@ -5,7 +5,7 @@ import { AdminRoutingModule } from './admin-routing.module';
 import { ProductFormComponent } from './components/product-form/product-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { MaterialModule } from '../material/material.module';
+import { MaterialModule } from '@material/material.module';
 import { NavComponent } from './components/nav/nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { ProductListComponent } from './components/product-list/product-list.component';
