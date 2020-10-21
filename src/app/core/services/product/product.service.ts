@@ -3,6 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { Product } from '../../models/product';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
+// Esta interfaz es unicamente para fines de ejemplo
+interface User {
+  email: string;
+  gender: string;
+  phone: string;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -69,4 +77,13 @@ export class ProductService {
   deleteProduct(id: string): Observable<boolean> {
     return this.http.delete<boolean>(`${environment.ApiUrl}/products/${id}`);
   }
+
+  // Esto es unicamente para fines de ejemplo. Aqui mostramos como castear los datos en type script
+  getRandomUsers(): Observable<User[]> {
+    return this.http.get('https://randomuser.me/api/?results=10')
+    .pipe(
+      map((response: any) => response.results as User[])
+    );
+  }
 }
+

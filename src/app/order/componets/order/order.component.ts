@@ -21,7 +21,6 @@ export class OrderComponent implements OnInit {
     this.products$ = this.cartService.cart$;
     this.productsDistinct$ = this.cartService.cart$.pipe(
       map((products) =>  {
-        debugger;
         const newListProducts = [];
         products.forEach((element) => {
           if(!newListProducts.some(el => el.id === element.id)){
