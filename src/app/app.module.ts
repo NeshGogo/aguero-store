@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireStorageModule } from '@angular/fire/storage';
@@ -16,6 +16,7 @@ import { CoreModule } from '@core/core.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import * as Sentry from '@sentry/angular';
 import { Integrations } from '@sentry/tracing';
+import { AuthInterceptor } from './auth.interceptor';
 
 Sentry.init({
   dsn: 'https://50b2424fe5b94364b082afff3b113837@o465227.ingest.sentry.io/5477539',
@@ -48,7 +49,13 @@ Sentry.init({
     AngularFireAuthModule,
     AngularFireStorageModule
   ],
-  providers: [],
+  providers: [
+    {// Aqui es como configuramos el interceptor que creamos para que se le aplique a cualquier peticion.
+      provide: HTTP_INTERCEPTORS, // le pasamos el interceptor de angular por defecto.
+      useClass: AuthInterceptor, // indicamos cual es el intercepto que va a utilizar
+      multi: true, // Esto hace que se le aplique a todas.
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
