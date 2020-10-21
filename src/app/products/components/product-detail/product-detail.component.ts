@@ -4,6 +4,7 @@ import { ProductService } from '@core/services/product/product.service';
 import { Product } from '@core/models/product';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { CssSelector } from '@angular/compiler';
 
 @Component({
   selector: 'app-product-detail',
@@ -27,7 +28,6 @@ export class ProductDetailComponent implements OnInit {
         return this.productService.getProduct(param.id);
       })
     );
-    this.randomUsers();
   }
 
   createProduct(): void {
@@ -57,10 +57,19 @@ export class ProductDetailComponent implements OnInit {
   }
 
   randomUsers(): void {
+    alert('Esta es una funcion que se creo para mostrar el manejo de errores. El error es enviado a sentry que es un log de errores');
     this.productService.getRandomUsers()
     .subscribe(
       users => console.log(users),
       error =>  console.error(error, '(error provocado intencionalmente)')
     );
+
+    alert('Abre la consola para que veas el error');
+  }
+
+  getFile(): void {
+    this.productService.getFile()
+    .subscribe( response => console.log(response));
+    alert('Abre la consola');
   }
 }

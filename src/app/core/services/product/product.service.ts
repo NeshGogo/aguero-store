@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Product } from '../../models/product';
 import { environment } from 'src/environments/environment';
 import { Observable, throwError } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { map, catchError, retry } from 'rxjs/operators';
 import * as Sentry from '@sentry/angular';
 
 // Esta interfaz es unicamente para fines de ejemplo
@@ -99,9 +99,15 @@ export class ProductService {
     // Estamos probocando un error al agregarle una r de mas en la API.
     return this.http.get('https://randomuserr.me/api/?results=10')
     .pipe(
+      // El retry nos ayuda a repetir la peticion n veces, este solo se ejecuta si falla.
+      retry(3),
       catchError(this.handlerError ),
       map((response: any) => response.results as User[])
     );
+  }
+
+  getFile(): Observable<string> {
+    return this.http.get('assets/files/test.txt', {responseType: 'text'});
   }
 
   private handlerError( err: HttpErrorResponse): Observable<never>{
