@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Product } from '../../models/product';
 import { environment } from 'src/environments/environment';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
+import * as Sentry from '@sentry/angular';
 
 // Esta interfaz es unicamente para fines de ejemplo
 interface User {
@@ -61,29 +62,54 @@ export class ProductService {
   constructor(private http: HttpClient) {}
 
   getAllProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(`${environment.ApiUrl}/products/`);
+    return this.http.get<Product[]>(`${environment.ApiUrl}/products/`)
+    .pipe(
+      catchError(this.handlerError ),
+    );
   }
 
   getProduct(id: string): Observable<Product> {
-    return this.http.get<Product>(`${environment.ApiUrl}/products/${id}`);
+    return this.http.get<Product>(`${environment.ApiUrl}/products/${id}`)
+    .pipe(
+      catchError(this.handlerError ),
+    );
   }
 
   createProduct(product: Product): Observable<Product> {
-    return this.http.post<Product>(`${environment.ApiUrl}/products`, product);
+    return this.http.post<Product>(`${environment.ApiUrl}/products`, product)
+    .pipe(
+      catchError(this.handlerError ),
+    );
   }
   updateProduct(id: string, change: Partial<Product>): Observable<Product> {
-    return this.http.put<Product>(`${environment.ApiUrl}/products/${id}`, change);
+    return this.http.put<Product>(`${environment.ApiUrl}/products/${id}`, change)
+    .pipe(
+      catchError(this.handlerError ),
+    );
   }
   deleteProduct(id: string): Observable<boolean> {
-    return this.http.delete<boolean>(`${environment.ApiUrl}/products/${id}`);
+    return this.http.delete<boolean>(`${environment.ApiUrl}/products/${id}`)
+    .pipe(
+      catchError(this.handlerError ),
+    );
   }
 
   // Esto es unicamente para fines de ejemplo. Aqui mostramos como castear los datos en type script
   getRandomUsers(): Observable<User[]> {
-    return this.http.get('https://randomuser.me/api/?results=10')
+    // Estamos probocando un error al agregarle una r de mas en la API.
+    return this.http.get('https://randomuserr.me/api/?results=10')
     .pipe(
+      catchError(this.handlerError ),
       map((response: any) => response.results as User[])
     );
+  }
+
+  private handlerError( err: HttpErrorResponse): Observable<never>{
+    // Este es el error detallado que es para nosotros. Este detalle de error lo podemos mandar para un log de errores.
+    console.error(err);
+    Sentry.captureException(err);
+    // Este es el error que es para mostrarselo al usuario.
+    return throwError('Ups!! Algo salio mal al procesar la accion');
   }
 }
 

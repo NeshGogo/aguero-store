@@ -56,8 +56,11 @@ export class ProductDetailComponent implements OnInit {
     .subscribe(value => console.log(value));
   }
 
-  randomUsers() {
+  randomUsers(): void {
     this.productService.getRandomUsers()
-    .subscribe(users => console.log(users));
+    .subscribe(
+      users => console.log(users),
+      error =>  console.error(error, '(error provocado intencionalmente)')
+    );
   }
 }

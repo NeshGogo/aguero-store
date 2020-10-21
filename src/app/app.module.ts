@@ -14,8 +14,22 @@ import { LayoutComponent } from './layout/layout.component';
 import { SharedModule } from '@shared/shared.module';
 import { CoreModule } from '@core/core.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import * as Sentry from '@sentry/angular';
+import { Integrations } from '@sentry/tracing';
 
+Sentry.init({
+  dsn: 'https://50b2424fe5b94364b082afff3b113837@o465227.ingest.sentry.io/5477539',
+  integrations: [
+    new Integrations.BrowserTracing({
+      tracingOrigins: ['localhost', 'https://yourserver.io/api'],
+      routingInstrumentation: Sentry.routingInstrumentation,
+    }),
+  ],
 
+  // We recommend adjusting this value in production, or using tracesSampler
+  // for finer control
+  tracesSampleRate: 1.0,
+});
 
 @NgModule({
   declarations: [
