@@ -1,6 +1,6 @@
 import { RepeatedQuantityPipe } from './repeated-quantity.pipe';
 
-describe('RepeatedQuantityPipe', () => {
+xdescribe('RepeatedQuantityPipe', () => {
   it('create an instance', () => {
     const pipe = new RepeatedQuantityPipe();
     expect(pipe).toBeTruthy();
