@@ -1,1 +1,147 @@
-<p>basic-forms works!</p>
+<section>
+  <div>
+    <input
+      [class.is-valid]="isNameFieldValid"
+      [class.is-invalid]="isNameFieldInValid"
+      [formControl]="nameField"
+      type="text"
+      name=""
+    />
+    <button [disabled]="nameField.invalid" (click)="getNameValue()">
+      Obtener Valor
+    </button>
+    <p>Name: {{ nameField.value }}</p>
+    <!-- <code>
+     <pre> {{nameField | json}}</pre>
+    </code> -->
+    <div
+      class="messages"
+      [class.active]="isNameFieldInValid"
+    >
+      <p *ngIf="nameField.touched && nameField.hasError('required')">
+        * Este campo es requerido.
+      </p>
+      <p *ngIf="nameField.touched && nameField.hasError('maxlength')">
+        * Debe tener una longitud maxima de 10 caracteres.
+      </p>
+    </div>
+  </div>
+
+  <div>
+    <input [formControl]="numberField" type="number" name="" />
+    <p>Numerico: {{ numberField.value }}</p>
+  </div>
+
+  <div>
+    <input [formControl]="telField" type="tel" name="" />
+    <p>Telefono: {{ telField.value }}</p>
+  </div>
+
+  <div>
+    <input [formControl]="emailField" type="email" name="" />
+    <p>Correo: {{ emailField.value }}</p>
+  </div>
+
+  <div>
+    <input [formControl]="colorField" type="color" name="" />
+    <p>Color: {{ colorField.value }}</p>
+  </div>
+
+  <div>
+    <input [formControl]="dateField" type="date" name="" />
+    <p>Fecha: {{ dateField.value }}</p>
+  </div>
+  <div>
+    <input [formControl]="ageField" type="week" name="" />
+    <p>Semana: {{ ageField.value }}</p>
+  </div>
+  <div>
+    <select [formControl]="categoryField" name="" id="">
+      <option value="categoria-1">Categoria 1</option>
+      <option value="categoria-2">Categoria 2</option>
+      <option value="categoria-3">Categoria 3</option>
+      <option value="categoria-4">Categoria 4</option>
+      <option value="categoria-5">Categoria 5</option>
+      <option value="categoria-6">Categoria 6</option>
+    </select>
+    <p>Categoria: {{ categoryField.value }}</p>
+  </div>
+  <div>
+    <select [formControl]="tagField" multiple size="4" name="" id="">
+      <option value="tag-1">Etiqueta 1</option>
+      <option value="tag-2">Etiqueta 2</option>
+      <option value="tag-3">Etiqueta 3</option>
+      <option value="tag-4">Etiqueta 4</option>
+      <option value="tag-5">Etiqueta 5</option>
+      <option value="tag-6">Etiqueta 6</option>
+    </select>
+    <p>Etiqueta: {{ tagField.value }}</p>
+  </div>
+  <div>
+    <label for="">
+      Deacuerdo
+      <input [formControl]="agreeField" type="checkbox" />
+    </label>
+    <p>Deacuerdo: {{ agreeField.value }}</p>
+  </div>
+  <div>
+    <label>
+      <input
+        name="gender"
+        value="male"
+        [formControl]="genderField"
+        type="radio"
+      />
+      Masculino
+    </label>
+    <label>
+      <input
+        name="gender"
+        value="female"
+        [formControl]="genderField"
+        type="radio"
+      />
+      Femenino
+    </label>
+    <label>
+      <input
+        name="gender"
+        value="other"
+        [formControl]="genderField"
+        type="radio"
+      />
+      Otros
+    </label>
+    <p>Genero: {{ genderField.value }}</p>
+  </div>
+  <div>
+    <label>
+      <input
+        name="zone"
+        value="zona-1"
+        [formControl]="zoneField"
+        type="radio"
+      />
+      Zona 1
+    </label>
+    <label>
+      <input
+        name="zone"
+        value="zona-2"
+        [formControl]="zoneField"
+        type="radio"
+      />
+      Zona 2
+    </label>
+    <label>
+      <input
+        name="zone"
+        value="zona-3"
+        [formControl]="zoneField"
+        type="radio"
+      />
+      Zona 3
+    </label>
+    <p>Zona: {{ zoneField.value }}</p>
+  </div>
+</section>
