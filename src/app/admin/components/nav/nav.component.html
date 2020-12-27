@@ -5,9 +5,28 @@
       [opened]="(isHandset$ | async) === false">
     <mat-toolbar>Menu</mat-toolbar>
     <mat-nav-list>
-      <a mat-list-item routerLink="products/create">Crear producto</a>
-      <a mat-list-item routerLink="products">Productos</a>
-      <a mat-list-item (click)="logout()">Cerrar sesion</a>
+      <a mat-list-item routerLink="products/create">
+        <mat-icon aria-hidden="false" aria-label="store icon">store</mat-icon>
+        Producto</a>
+      <a mat-list-item routerLink="products"> 
+        <mat-icon aria-hidden="false" aria-label="store icon">store</mat-icon>
+        Productos
+      </a>
+      <a mat-list-item routerLink="products"> 
+        <mat-icon aria-hidden="false" aria-label="store icon">category</mat-icon>
+        Categorias
+      </a>
+      <a mat-list-item routerLink="products"> 
+        <mat-icon aria-hidden="false" aria-label="store icon">category</mat-icon>
+        Categorias
+      </a>
+      <a mat-list-item routerLink="basic">
+        <mat-icon aria-hidden="false" aria-label="store icon">category</mat-icon>
+        Basic Forms
+      </a>
+      <a mat-list-item (click)="logout()">
+        <mat-icon aria-hidden="false" aria-label="store icon">login</mat-icon>
+        Cerrar</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
