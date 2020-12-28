@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@core/services/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MyValidators } from '../../../utils/my-validatos';
 import {  Router } from '@angular/router';
 
 
@@ -36,7 +37,8 @@ export class RegisterComponent implements OnInit {
   private buildForm(): void{
     this.form = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      password: ['', [Validators.required, Validators.minLength(6), MyValidators.validPassword]],
+      confirmPassword: ['', [Validators.required, Validators.minLength(6), MyValidators.validPassword]],
     });
   }
 }

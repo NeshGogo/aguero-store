@@ -1,37 +1,51 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 @Component({
   selector: 'app-basic-forms',
   templateUrl: './basic-forms.component.html',
   styleUrls: ['./basic-forms.component.scss'],
 })
 export class BasicFormsComponent implements OnInit {
-  nameField: FormControl = new FormControl('',[Validators.required, Validators.maxLength(10)]);
-  numberField: FormControl = new FormControl();
-  telField: FormControl = new FormControl();
-  emailField: FormControl = new FormControl();
-  colorField: FormControl = new FormControl();
-  dateField: FormControl = new FormControl();
-  ageField: FormControl = new FormControl();
-  categoryField: FormControl = new FormControl('categoria-4');
-  tagField: FormControl = new FormControl('tag-4');
-  agreeField: FormControl = new FormControl(false);
-  genderField: FormControl = new FormControl('male');
-  zoneField: FormControl = new FormControl('');
-  constructor() {}
+  form: FormGroup;
+  constructor(
+    private formBuilder: FormBuilder,
+  ) {
+    this.buildForm();
+  }
 
   ngOnInit(): void {
-    this.nameField.valueChanges.subscribe((value) => console.log(value));
+    this.form.valueChanges.subscribe((value) => console.log(value));
   }
 
   getNameValue() {
-    console.log(this.nameField.value);
+    console.log(this.form.value.name);
   }
 
   get isNameFieldValid(){
-    return this.nameField.touched && this.nameField.valid;
+    return this.form.get('name').touched && this.form.get('name').valid;
   }
   get isNameFieldInValid(){
-    return this.nameField.touched && this.nameField.invalid;
+    return this.form.get('name').touched && this.form.get('name').invalid;
+  }
+  private buildForm(){
+    this.form = this.formBuilder.group({
+      name: ['',[Validators.required, Validators.maxLength(10)]],
+      number:[0],
+      tel:[''],
+      email:[''],
+      color:[''],
+      date:[''],
+      age:[''],
+      category:['categoria-4'],
+      tag:['tag-4'],
+      agree:[false],
+      gender:['male'],
+      zone:[''],
+    });
+  }
+  save(event: Event){
+    event.preventDefault();
+    if(this.form.invalid) return;
+    console.log(this.form.value);
   }
 }
