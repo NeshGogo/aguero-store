@@ -23,6 +23,9 @@
           <mat-form-field>
             <input matInput type="password" placeholder="Confirmar Contraseña" formControlName="confirmPassword">
           </mat-form-field>
+          <mat-error *ngIf="form.hasError('notMatch_password')">
+            * Las claves no coinciden.
+          </mat-error>
         </div>
       </div>
     </mat-card-content>
