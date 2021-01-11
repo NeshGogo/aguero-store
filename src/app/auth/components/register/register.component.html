@@ -28,6 +28,24 @@
           </mat-error>
         </div>
       </div>
+      <div class="row">
+        <div class="col-xs">
+          <mat-radio-group formControlName="type" aria-label="Select an option">
+            <mat-radio-button value="company">Company</mat-radio-button>
+            <mat-radio-button value="customer">Customer</mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs">
+          <mat-form-field>
+            <input matInput type="text" placeholder="Nombre de la compania" formControlName="companyName">
+          </mat-form-field>
+          <mat-error *ngIf="companyNameField.hasError('required')">
+            *Este campo es requerido.
+          </mat-error>
+        </div>
+      </div>
     </mat-card-content>
     <mat-card-actions>
       <div class="row center-xs">

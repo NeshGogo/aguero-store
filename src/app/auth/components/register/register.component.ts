@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@core/services/auth.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MyValidators } from '../../../utils/my-validatos';
 import { Router } from '@angular/router';
 
@@ -44,10 +44,31 @@ export class RegisterComponent implements OnInit {
           ],
         ],
         confirmPassword: ['', [Validators.required]],
+        type: ['company',[Validators.required]],
+        companyName: ['', [Validators.required]],
       },
       {
         validators: [ MyValidators.matchPasswords]
       }
     );
+
+    this.typeField.valueChanges
+    .subscribe(value => {
+      if (value === 'company') {
+        this.companyNameField.setValidators([Validators.required]);
+      } else {
+        this.companyNameField.setValidators(null);
+      }
+      this.companyNameField.updateValueAndValidity();
+    })
   }
+
+  public get typeField() : AbstractControl {
+    return this.form.get('type');
+  }
+
+  public get companyNameField() : AbstractControl {
+    return this.form.get('companyName');
+  }
+
 }
