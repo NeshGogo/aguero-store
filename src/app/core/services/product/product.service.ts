@@ -62,33 +62,33 @@ export class ProductService {
   constructor(private http: HttpClient) {}
 
   getAllProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(`${environment.ApiUrl}/products/`)
+    return this.http.get<Product[]>(`${environment.ApiUrl2}/products/`)
     .pipe(
       catchError(this.handlerError ),
     );
   }
 
   getProduct(id: string): Observable<Product> {
-    return this.http.get<Product>(`${environment.ApiUrl}/products/${id}`)
+    return this.http.get<Product>(`${environment.ApiUrl2}/products/${id}`)
     .pipe(
       catchError(this.handlerError ),
     );
   }
 
   createProduct(product: Product): Observable<Product> {
-    return this.http.post<Product>(`${environment.ApiUrl}/products`, product)
+    return this.http.post<Product>(`${environment.ApiUrl2}/products`, product)
     .pipe(
       catchError(this.handlerError ),
     );
   }
   updateProduct(id: string, change: Partial<Product>): Observable<Product> {
-    return this.http.put<Product>(`${environment.ApiUrl}/products/${id}`, change)
+    return this.http.put<Product>(`${environment.ApiUrl2}/products/${id}`, change)
     .pipe(
       catchError(this.handlerError ),
     );
   }
   deleteProduct(id: string): Observable<boolean> {
-    return this.http.delete<boolean>(`${environment.ApiUrl}/products/${id}`)
+    return this.http.delete<boolean>(`${environment.ApiUrl2}/products/${id}`)
     .pipe(
       catchError(this.handlerError ),
     );

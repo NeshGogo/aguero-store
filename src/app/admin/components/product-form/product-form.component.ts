@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AngularFireStorage } from '@angular/fire/storage';
@@ -7,15 +7,18 @@ import { ProductService } from '../../../core/services/product/product.service';
 import { MyValidators } from '../../../utils/my-validatos';
 import { map, finalize, tap } from 'rxjs/operators';
 import { Observable, pipe } from 'rxjs';
+import { CategoryService } from '@core/services/category.service';
+import { Category } from '@core/models/category';
 
 @Component({
   selector: 'app-product-form',
   templateUrl: './product-form.component.html',
   styleUrls: ['./product-form.component.scss']
 })
-export class ProductFormComponent {
+export class ProductFormComponent implements OnInit {
   form: FormGroup;
   percenUpload$: Observable<number>;
+  categories: Category[] = [];
   private image$: Observable<string>;
 
   constructor(
@@ -23,8 +26,12 @@ export class ProductFormComponent {
     private productService: ProductService,
     private router: Router,
     private angularFireStorage: AngularFireStorage,
+    private categoryServices: CategoryService,
   ) {
     this.buildForm();
+  }
+  ngOnInit(): void {
+    this.getCategories();
   }
 
   onSubmit(event: Event): void {
@@ -41,10 +48,10 @@ export class ProductFormComponent {
   // Asi es como construimos el formulario cuando tenemos multiples campos.
   private buildForm(): void{
     this.form = this.formBuilder.group({
-      id: ['', [Validators.required] ],
-      title: ['', [Validators.required] ],
+      name: ['', [Validators.required] ],
       price: [0, [Validators.required, MyValidators.isPriceValided] ],
       description: ['', [Validators.required]],
+      category_id: ['', [Validators.required]],
       image: ['', [Validators.required]]
     });
   }
@@ -67,5 +74,10 @@ export class ProductFormComponent {
         });
       }),
     ).subscribe();
+  }
+
+  private getCategories() {
+    this.categoryServices.getAll()
+    .subscribe( categories => this.categories = categories);
   }
 }

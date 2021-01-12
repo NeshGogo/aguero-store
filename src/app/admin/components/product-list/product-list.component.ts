@@ -8,7 +8,7 @@ import { Product } from 'src/app/core/models/product';
   styleUrls: ['./product-list.component.scss'],
 })
 export class ProductListComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'title', 'price', 'actions'];
+  displayedColumns: string[] = ['id', 'name', 'price', 'actions'];
   products: Product[] = [];
 
   constructor(private productService: ProductService) {}
@@ -20,13 +20,15 @@ export class ProductListComponent implements OnInit {
   fetchProducts(): void {
     this.productService
       .getAllProducts()
-      .subscribe((products) => (this.products = products));
+      .subscribe((products) => {this.products = products;
+       console.log(products);
+      });
   }
 
   deleteProduct(id: string): void {
     this.productService.deleteProduct(id).subscribe((status) => {
       if (status) {
-        const product = this.products.filter((pro) => pro.id === id);
+        const product = this.products.filter((pro) => pro._id === id);
         const index = this.products.indexOf(product[0]);
         this.products.splice(index, 1);
         this.products = [...this.products];

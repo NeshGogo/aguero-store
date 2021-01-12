@@ -3,6 +3,8 @@ import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/fo
 import { ProductService } from 'src/app/core/services/product/product.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { MyValidators } from 'src/app/utils/my-validatos';
+import { Category } from '@core/models/category';
+import { CategoryService } from '@core/services/category.service';
 
 @Component({
   selector: 'app-product-edit',
@@ -13,17 +15,19 @@ export class ProductEditComponent implements OnInit {
 
   form: FormGroup;
   id: string;
-
+  categories: Category[] = [];
   constructor(
     private formBuilder: FormBuilder,
     private productService: ProductService,
     private router: Router,
     private activeRoute: ActivatedRoute,
+    private categoryServices: CategoryService,
   ) {
     this.buildForm();
   }
 
   ngOnInit(): void {
+    this.getCategories();
     this.activeRoute.params.subscribe((params: Params) => {
       this.id = params.id;
       this.productService.getProduct(this.id)
@@ -48,8 +52,9 @@ export class ProductEditComponent implements OnInit {
   // Asi es como construimos el formulario cuando tenemos multiples campos.
   private buildForm(): void{
     this.form = this.formBuilder.group({
-      title: ['', [Validators.required] ],
+      name: ['', [Validators.required] ],
       price: [0, [Validators.required, MyValidators.isPriceValided] ],
+      category_id: ['', [Validators.required]],
       description: ['', [Validators.required]]
     });
   }
@@ -58,5 +63,9 @@ export class ProductEditComponent implements OnInit {
     return this.form.get('price');
   }
 
+  private getCategories() {
+    this.categoryServices.getAll()
+    .subscribe( categories => this.categories = categories);
+  }
 
 }

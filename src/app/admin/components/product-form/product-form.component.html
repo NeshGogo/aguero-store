@@ -7,14 +7,7 @@
       <div class="row">
         <div class="col-xs">
           <mat-form-field>
-            <input matInput type="text" placeholder="Id" formControlName="id">
-          </mat-form-field>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-xs">
-          <mat-form-field>
-            <input matInput type="text" placeholder="Titulo" formControlName="title">
+            <input matInput type="text" placeholder="Nombre" formControlName="name">
           </mat-form-field>
         </div>
       </div>
@@ -29,6 +22,16 @@
           <p *ngIf="form.get('price').dirty && form.get('price').hasError('required')">
             Este campo es requerido
           </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs">
+          <mat-form-field >
+            <mat-label>Categoria</mat-label>
+            <mat-select formControlName="category_id">
+              <mat-option value="option1" *ngFor="let category of categories" [value]="category._id">{{category.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
       <div class="row">
