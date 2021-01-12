@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import {
   FormControl,
   Validators,
@@ -20,24 +20,27 @@ import { MyValidators } from 'src/app/utils/my-validatos';
 })
 export class CategoryFormComponent implements OnInit {
   form: FormGroup;
-  categoryId: string;
+  isNew = true;
+  @Input()
+  public set category(data: Category) {
+    if (data) {
+      this.isNew = false;
+      this.form.patchValue(data);
+    }
+  }
+  @Output() create = new EventEmitter();
+  @Output() update = new EventEmitter();
+
   constructor(
     private formBuilder: FormBuilder,
     private categoryService: CategoryService,
-    private route: Router,
     private storage: AngularFireStorage,
-    private activeRoute: ActivatedRoute
   ) {
     this.buildForm();
   }
 
   ngOnInit(): void {
-    this.activeRoute.params.subscribe((params: Params) => {
-      this.categoryId = params.id;
-      if (this.categoryId) {
-        this.getCategory();
-      }
-    });
+    this.form.patchValue(this.category);
   }
 
   private buildForm(): void {
@@ -61,32 +64,14 @@ export class CategoryFormComponent implements OnInit {
 
   save() {
     if (this.form.valid) {
-      if (this.categoryId) {
-        this.updateCategory();
+      if (this.isNew) {
+        this.create.emit(this.form.value);
       } else {
-        this.createCategory();
+        this.update.emit(this.form.value);
       }
     } else {
       this.form.markAllAsTouched();
     }
-  }
-
-  private createCategory() {
-    const data: Partial<Category> = this.form.value;
-    this.categoryService.create(data).subscribe((rta) => {
-      this.route.navigate(['./admin/categories']);
-    });
-  }
-  private updateCategory() {
-    const data = this.form.value;
-    this.categoryService.update(this.categoryId, data).subscribe((rta) => {
-      this.route.navigate(['./admin/categories']);
-    });
-  }
-  private getCategory() {
-    this.categoryService
-      .get(this.categoryId)
-      .subscribe((category) => this.form.patchValue(category));
   }
 
   uploadFile(event: any) {

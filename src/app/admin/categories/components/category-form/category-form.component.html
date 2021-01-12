@@ -34,7 +34,7 @@
     </mat-card-content>
     <mat-card-actions>
       <button mat-raised-button  type="submit">
-        <ng-container *ngIf="!this.categoryId; else elseEdit">
+        <ng-container *ngIf="!this.isNew; else elseEdit">
           Guardar Categoria
         </ng-container>
         <ng-template #elseEdit>
