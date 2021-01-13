@@ -1,6 +1,6 @@
 <mat-card>
     <mat-card-header>
-        <mat-card-title>{{ product.title | uppercase }}</mat-card-title>
+        <mat-card-title>{{ product.name | uppercase }}</mat-card-title>
         <mat-card-subtitle>RD{{ product.price | currency }}</mat-card-subtitle>
     </mat-card-header>
     <div class="crop-image">
@@ -13,7 +13,7 @@
         <button mat-raised-button color="primary" (click)="addCart()">
             Agregar al carrito
         </button>
-        <a mat-raised-button [routerLink]="['/products', product.id]">Ver detalle</a>
+        <a mat-raised-button [routerLink]="['/products', product._id]">Ver detalle</a>
     </mat-card-actions>
 </mat-card>
 
